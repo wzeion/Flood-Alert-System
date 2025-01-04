@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flash Alert System</title>
+  <link rel="stylesheet" href="css/body.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header Section -->
+    <header>
+      <h1>FLASH ALERT SYSTEM</h1>
+    </header>
+    <div class="outer">
+    <!-- Form Section -->
+    <div class="form-container">
+      <form class="form" action="/information" method="POST">
+        <input class="input" type="text" placeholder="City Name" name="city-name">
+        <input class="button" type="submit" value="Enter">
+        <div class="separator"></div>
+      </form>    
+      <span>OR</span>
+      <form class="button2" id="location-form" action="/location" method="post">  
+        <input id="location-button" onclick="getLocation(event)" type="submit" value="Auto-detect my location">
+        <!-- Hidden input fields for latitude and longitude -->
+        <input type="hidden" id="latitude" name="latitude">
+        <input type="hidden" id="longitude" name="longitude">
+      </form>
+    </div>
+
+    </div>
+    <!-- Footer Section -->
+    <footer>
+      <p>
+        For precise and reliable flood data, explore our IoT device tailored to provide the most accurate local area insights.
+        <a href="#" class="learn-more">Learn more here.</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    function getLocation(event) {
+      event.preventDefault();  // Prevent form submission
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+      } else {
+        alert("Auto-detect is not supported by your current browser!");
+      }
+    }
+
+    function showPosition(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+
+      // Set latitude and longitude to hidden input fields
+      document.getElementById("latitude").value = latitude;
+      document.getElementById("longitude").value = longitude;
+
+      // Submit the form after setting the coordinates
+      document.getElementById("location-form").submit();
+    }
+
+    function showError(error) {
+      const output = document.getElementById("output");
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          alert("Permission denied by the user.");
+          break;
+        case error.POSITION_UNAVAILABLE:
+          alert("Location unavailable.");
+          break;
+        case error.TIMEOUT:
+          alert("Request timed out.");
+          break;
+        default:
+          alert("An unknown error occurred.");
+          break;
+      }
+    }
+  </script>
+</body>
+</html>
